@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/boards/boards-page.component').then(m => m.BoardsPageComponent)
   },
   {
+    path: 'boards/:id',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/boards/board-detail/board-detail.component').then(m => m.BoardDetailComponent)
+  },
+  {
     path: '',
     redirectTo: '/boards',
     pathMatch: 'full'

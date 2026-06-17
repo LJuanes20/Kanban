@@ -1,0 +1,109 @@
+<nav class="navbar px-4">
+    <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-link  p-0" (click)="goBack()">← Tableros</button>
+        <span>/</span>
+        <span class="navbar-brand mb-0 fw-bold">{{ board()?.name }}</span>
+    </div>
+    <button class="btn btn-primary btn-sm" (click)="openTaskModal()">+ Nueva tarea</button>
+</nav>
+
+@if (isLoading()) {
+<div class="text-center py-5 text-muted">Cargando tablero...</div>
+}
+
+@if (errorMessage()) {
+<div class="container mt-3">
+    <div class="alert alert-danger">{{ errorMessage() }}</div>
+</div>
+}
+
+@if (!isLoading() && board()) {
+<div class="kanban-wrapper">
+    @for (col of columns; track col.statusId) {
+    <div class="kanban-column" (dragover)="onDragOver($event)" (drop)="onDrop($event, col.statusId)"
+        [class.drag-over]="draggedTask() !== null">
+        <div class="column-header">
+            <span class="column-title">{{ col.name }}</span>
+            <span class="badge bg-secondary">
+                {{ tasksByStatus().get(col.statusId)?.length ?? 0 }}
+            </span>
+        </div>
+
+        <!-- Sección de la tarjeta -->
+        <div class="column-body">
+            @for (task of tasksByStatus().get(col.statusId); track task.id) {
+            <div class="task-card" draggable="true" (dragstart)="onDragStart(task)" (dragend)="onDragEnd()"
+                [class.dragging]="draggedTask()?.id === task.id">
+                <div class="task-title">{{ task.title }}</div>
+
+                @if (task.description) {
+                <div class="task-desc">{{ task.description }}</div>
+                }
+
+                <div class="task-footer">
+                    <span class="badge bg-light text-dark">{{ task.points }} pts</span>
+                    <div class="task-actions">
+                        <button class="btn-move" [disabled]="task.statusId === 1" (click)="moveTask(task, 'prev')"
+                            title="Mover atrás">‹</button>
+                        <button class="btn-move" [disabled]="task.statusId === 4" (click)="moveTask(task, 'next')"
+                            title="Mover adelante">›</button>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if ((tasksByStatus().get(col.statusId)?.length ?? 0) === 0) {
+            <div class="empty-col">Sin tareas</div>
+            }
+        </div>
+    </div>
+    }
+</div>
+}
+
+@if (showTaskModal()) {
+<div class="modal-backdrop-custom" (click)="closeTaskModal()"></div>
+<div class="modal-dialog-custom">
+    <div class="modal-content rounded-3 shadow-lg p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0 fw-bold">Nueva tarea</h5>
+            <button type="button" class="btn-close" (click)="closeTaskModal()"></button>
+        </div>
+
+        @if (createError()) {
+        <div class="alert alert-danger py-2">{{ createError() }}</div>
+        }
+
+        <div class="mb-3">
+            <label class="form-label">Título <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="newTask.title" placeholder="Ej: Diseñar login"
+                maxlength="200" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Descripción <span class="text-muted small">(opcional)</span></label>
+            <textarea class="form-control" [(ngModel)]="newTask.description" rows="3" maxlength="2000"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Story points</label>
+            <div class="d-flex gap-2 flex-wrap">
+                @for (pt of pointOptions; track pt) {
+                <button type="button" class="btn btn-sm" [class.btn-primary]="newTask.points === pt"
+                    [class.btn-outline-secondary]="newTask.points !== pt" (click)="newTask.points = pt">{{ pt
+                    }}</button>
+                }
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-secondary" (click)="closeTaskModal()" [disabled]="isCreating()">
+                Cancelar
+            </button>
+            <button class="btn btn-primary" (click)="createTask()" [disabled]="!newTask.title.trim() || isCreating()">
+                {{ isCreating() ? 'Creando...' : 'Crear tarea' }}
+            </button>
+        </div>
+    </div>
+</div>
+}
