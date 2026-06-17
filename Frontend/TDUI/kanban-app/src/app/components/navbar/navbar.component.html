@@ -1,0 +1,52 @@
+@if (!isAuthPage) {
+<nav class="navbar-custom">
+    <!-- Logo -->
+    <div class="navbar-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-text">Kanban</span>
+    </div>
+
+    <!-- Buscador -->
+    @if (currentSection() !== 'none') {
+    <div class="navbar-search">
+        <!-- TODO: Icono del search fontawesome -->
+        <span class="search-icon"></span>
+        <input type="text" class="search-input" [placeholder]="searchPlaceholder" [(ngModel)]="searchText"
+            (ngModelChange)="onSearch()" />
+    </div>
+    }
+
+    @if (currentUser()) {
+    <div class="navbar-user" (clickOutside)="closeUserMenu()">
+        <button class="user-btn" (click)="toggleUserMenu()">
+            <div class="user-avatar">
+                <!-- TODO: Si no hay usuario, mostrar icono de usuario -->
+                {{ currentUser()?.displayName?.charAt(0)?.toUpperCase() }}
+            </div>
+            <span class="user-name">{{ currentUser()!.displayName }}</span>
+            <span class="chevron" [class.open]="showUserMenu">▾</span>
+        </button>
+
+        @if (showUserMenu) {
+        <div class="user-menu">
+            <div class="user-menu-header">
+                <div class="user-avatar lg">
+                    <!-- TODO: Si no hay usuario, mostrar icono de usuario -->
+                    {{ currentUser()?.displayName?.charAt(0)?.toUpperCase() }}
+                </div>
+                <div>
+                    <div class="fw-semibold">{{ currentUser()!.displayName }}</div>
+                    <div class="text-muted small">{{ currentUser()!.email }}</div>
+                </div>
+            </div>
+            <hr class="my-1" />
+            <button class="menu-item danger" (click)="logout()">
+                <!-- TODO: Icono de cerrar sesión fontawesome -->
+                Cerrar sesión
+            </button>
+        </div>
+        }
+    </div>
+    }
+</nav>
+}
