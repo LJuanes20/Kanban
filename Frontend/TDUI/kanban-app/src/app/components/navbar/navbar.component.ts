@@ -1,10 +1,11 @@
-import { Component, inject, output, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { SearchService } from '../../services/search.service';
 
 @Component({
     selector: 'app-navbar',
@@ -17,11 +18,20 @@ export class NavbarComponent {
     private router = inject(Router);
     private authService = inject(AuthService);
 
-    searchQuery = output<string>();
+    private searchService = inject(SearchService);
 
     currentUser = this.authService.currentUser;
     searchText = '';
     showUserMenu = false;
+
+    constructor() {
+        this.router.events.pipe(
+            filter(e => e instanceof NavigationEnd)
+        ).subscribe(() => {
+            this.searchText = '';
+            this.searchService.clear();
+        });
+    }
 
     currentSection = toSignal(
         this.router.events.pipe(
@@ -32,7 +42,13 @@ export class NavbarComponent {
                 return 'none';
             })
         ),
-        { initialValue: 'none' }
+        {
+            initialValue: this.router.url.includes('/boards/')
+                ? 'tasks'
+                : this.router.url.includes('/boards')
+                    ? 'boards'
+                    : 'none'
+        }
     );
 
     get searchPlaceholder(): string {
@@ -47,7 +63,7 @@ export class NavbarComponent {
     }
 
     onSearch(): void {
-        this.searchQuery.emit(this.searchText);
+        this.searchService.setQuery(this.searchText);
     }
 
     toggleUserMenu(): void {

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { BoardService, Board } from '../../../services/board.service';
 import { TaskService, TaskItem, CreateTaskRequest } from '../../../services/tasks.service';
-
+import { SearchService } from '../../../services/search.service';
 interface Column {
     statusId: number;
     name: string;
@@ -46,15 +46,6 @@ export class BoardDetailComponent implements OnInit {
 
     readonly columns = COLUMNS;
     readonly pointOptions = POINTS;
-
-    tasksByStatus = computed(() => {
-        const map = new Map<number, TaskItem[]>();
-        for (const col of COLUMNS) map.set(col.statusId, []);
-        for (const task of this.tasks()) {
-            map.get(task.statusId)?.push(task);
-        }
-        return map;
-    });
 
     ngOnInit(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -140,4 +131,24 @@ export class BoardDetailComponent implements OnInit {
     }
 
     goBack(): void { this.router.navigate(['/boards']); }
+
+    private searchService = inject(SearchService);
+
+    filteredTasks = computed(() => {
+        const q = this.searchService.query().toLowerCase().trim();
+        if (!q) return this.tasks();
+        return this.tasks().filter(t =>
+            t.title.toLowerCase().includes(q) ||
+            (t.description ?? '').toLowerCase().includes(q)
+        );
+    });
+
+    tasksByStatus = computed(() => {
+        const map = new Map<number, TaskItem[]>();
+        for (const col of COLUMNS) map.set(col.statusId, []);
+        for (const task of this.filteredTasks()) {
+            map.get(task.statusId)?.push(task);
+        }
+        return map;
+    });
 }

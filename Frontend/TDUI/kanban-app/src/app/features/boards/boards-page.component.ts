@@ -1,9 +1,10 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BoardService, Board, CreateBoardRequest } from '../../services/board.service';
+import { SearchService } from '../../services/search.service';
 
 @Component({
     selector: 'app-boards-page',
@@ -86,4 +87,15 @@ export class BoardsPageComponent implements OnInit {
         this.authService.logout();
         this.router.navigateByUrl('/login');
     }
+
+    private searchService = inject(SearchService);
+
+    filteredBoards = computed(() => {
+        const q = this.searchService.query().toLowerCase().trim();
+        if (!q) return this.boards();
+        return this.boards().filter(b =>
+            b.name.toLowerCase().includes(q) ||
+            (b.description ?? '').toLowerCase().includes(q)
+        );
+    });
 }
