@@ -1,0 +1,36 @@
+<footer class="footer-custom">
+    <div class="footer-inner">
+        
+        <div class="footer-profile">
+            <div class="footer-avatar">LJ</div>
+            <div>
+                <div class="footer-name">Luis Osvaldo Juanes Hinojosa</div>
+                <div class="footer-title">Ing. en Sistemas Computacionales</div>
+            </div>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <!-- Redes sociales -->
+        <div class="footer-socials">
+            <div class="footer-links">
+                @for (social of socials; track social.label) {
+                <a [href]="social.url" target="_blank" rel="noopener noreferrer" class="social-link"
+                    [title]="social.label">                    
+                    <fa-icon [icon]="social.icon"></fa-icon>                    
+                    <span class="social-name">{{ social.label }}</span>
+                </a>
+                }
+            </div>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <!-- Copyright -->
+        <div class="footer-copy">
+            <span>© {{ currentYear }} Luis Juanes</span>
+            <span class="copy-sub">Todos los derechos reservados</span>
+        </div>
+
+    </div>
+</footer>

@@ -1,0 +1,117 @@
+.footer-custom {
+  background: #1e3a5f;
+  color: rgba(255,255,255,0.85);
+  padding: 20px 32px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+/* ── Perfil ─────────────────────────────────────── */
+.footer-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.footer-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.footer-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.footer-title {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+
+/* ── Divider ────────────────────────────────────── */
+.footer-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+/* ── Redes ──────────────────────────────────────── */
+.footer-socials {
+  flex: 1;
+}
+
+.footer-socials-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 8px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.8rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.social-link:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.social-icon {
+  font-size: 0.9rem;
+}
+
+/* ── Copyright ──────────────────────────────────── */
+.footer-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.copy-symbol {
+  font-size: 1.1rem;
+  color: #3b82f6;
+}
+
+.copy-sub {
+  font-size: 0.72rem;
+}

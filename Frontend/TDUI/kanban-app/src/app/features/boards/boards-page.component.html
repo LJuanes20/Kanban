@@ -21,7 +21,7 @@
     </div>
     } @else {
     <div class="row g-3">
-        @for (board of boards(); track board.id) {
+        @for (board of filteredBoards(); track board.id) {
         <div class="col-12 col-sm-6 col-lg-4">
             <div class="card h-100 board-card" (click)="goToBoard(board.id)" role="button">
                 <div class="card-body">

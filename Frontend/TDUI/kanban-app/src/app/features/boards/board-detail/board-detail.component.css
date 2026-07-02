@@ -139,5 +139,16 @@
   z-index: 1050;
   width: 100%;
   max-width: 480px;
-  padding: 0 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.btn-go-back {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
 }
