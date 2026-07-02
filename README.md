@@ -141,14 +141,20 @@ App disponible en `http://localhost:4200`.
 - CRUD de boards (backend + servicio Angular)
 - CRUD de tareas + cambio de status (backend + servicio Angular)
 - Bootstrap 5 integrado
-
-### 🔲 Pendiente
 - BoardsPage: lista visual de boards con cards
 - Modal para crear board
 - Ruta y página de detalle `/boards/:id`
 - Vista Kanban con 4 columnas
 - Modal para crear tarea
 - Drag & drop + botones para mover tareas entre columnas
+- Navbar
+- Footer
+  
+### 🔲 Pendiente
+- Permisos/privilegios de usuario
+- Epicas/Proyecto
+- Notificar vencimiento de tareas
+- Mejorar la interacción y diseño de las tareas entre los carriles (colores, estados, etc.).
 
 ## Autor
 **Luis Osvaldo Juanes Hinojosa**
